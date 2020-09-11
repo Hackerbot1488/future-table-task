@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { TableRow } from "./TableRow";
-import { TableRowColumn } from "./interfaces";
+import { Person, TableProps, TableRowColumn } from "./interfaces";
 import "./table.sass";
 import { title } from "process";
-export const Table: React.FC<{}> = () => {
-	const link =
-		"http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}";
+export const Table: React.FC<TableProps> = ({ people }) => {
 	let headerColumns: TableRowColumn[] = [
 		{ title: "id", sorted: true, active: "default", index: 0 },
 		{ title: "firstName", sorted: true, active: "default", index: 1 },
@@ -13,20 +11,25 @@ export const Table: React.FC<{}> = () => {
 		{ title: "email", sorted: false },
 		{ title: "phone", sorted: false },
 	];
-	const [data, setData] = useState([]);
 	const [header, setHeader] = useState(headerColumns);
-	const [persons, setPersons] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [persons, setPersons] = useState<Person[]>([]);
 	const [sortType, setSortType] = useState({ title: "", to: "" });
-	function changeActive(index, to) {
+	function changeActive(newIndex, toNew, oldIndex?, toOld?) {
 		setHeader(() => {
 			let columns: TableRowColumn[] = [];
 			for (const el of header) {
-				if (el.index === index) {
+				if (el.index === oldIndex) {
 					columns.push({
 						title: el.title,
 						sorted: el.sorted,
-						active: to,
+						active: toOld,
+						index: el.index,
+					});
+				} else if (el.index === newIndex) {
+					columns.push({
+						title: el.title,
+						sorted: el.sorted,
+						active: toNew,
 						index: el.index,
 					});
 				} else {
@@ -38,37 +41,64 @@ export const Table: React.FC<{}> = () => {
 	}
 	function changeSort(title: string, index: number) {
 		if (sortType.title === "") {
-			headerColumns[index].active = "up";
+			changeActive(index, "up");
 			setSortType({ title: title, to: "up" });
 		} else if (sortType.title === title) {
 			if (sortType.to === "up") {
-				headerColumns[index].active = "down";
+				changeActive(index, "down");
 				setSortType({ title: title, to: "down" });
 			} else {
-				headerColumns[index].active = "default";
+				changeActive(index, "default");
 				setSortType({ title: "", to: "" });
 			}
 		} else {
-			headerColumns[
-				headerColumns.findIndex((col) => col.title === sortType.title)
-			].active = "default";
-			headerColumns[index].active = "up";
+			const oldIndex = header.findIndex((el) => el.title === sortType.title);
+			changeActive(index, "up", oldIndex, "default");
 			setSortType({ title: title, to: "up" });
 		}
 	}
+	const compareUp = useCallback(
+		(a: Person, b: Person) => {
+			const prop = sortType.title;
+			if (a[prop] > b[prop]) {
+				return 1;
+			}
+			if (a[prop] < b[prop]) {
+				return -1;
+			}
+			return 0;
+		},
+		[sortType.title]
+	);
+	const compareDown = useCallback(
+		(a: Person, b: Person) => {
+			const prop = sortType.title;
+			if (a[prop] > b[prop]) {
+				return -1;
+			}
+			if (a[prop] < b[prop]) {
+				return 1;
+			}
+			return 0;
+		},
+		[sortType.title]
+	);
 	useEffect(() => {
-		setLoading(true);
-		fetch(link)
-			.then((response) => response.json())
-			.then((data) => {
-				setPersons(data);
-				setData(data);
-			});
-		setLoading(false);
-	}, []);
-	if (loading) {
-		return <p>Loading...</p>;
-	}
+		setPersons(people);
+	}, [people]);
+	useEffect(() => {
+		console.log(sortType);
+		if (sortType.title === "") {
+			setPersons(people);
+		} else {
+			if (sortType.to === "up") {
+				console.log("up");
+				persons.sort(compareUp);
+			} else if (sortType.to === "down") {
+				persons.sort(compareDown);
+			}
+		}
+	}, [sortType, people, persons, compareDown, compareUp]);
 	return (
 		<div className="table">
 			<TableRow isHeader columns={header} changeSort={changeSort} />
