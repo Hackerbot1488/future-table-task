@@ -1,0 +1,23 @@
+.table__row
+  display: flex
+  padding: 15px 20px
+  border-bottom: 1px solid #b4b4b4
+  transition: 0.5s
+  font-size: 14px
+  cursor: pointer
+  &:hover
+    background-color: #b8b8b8
+  &_header
+    font-weight: bold
+    font-size: 12px
+    cursor: default
+    color: rgba(0,0,0,.6)
+    &:hover
+      background-color: transparent
+  &:last-child
+    border-bottom: none
+.table__column
+  overflow: hidden
+  text-overflow: ellipsis
+  width: 100px
+  padding-right: 10px

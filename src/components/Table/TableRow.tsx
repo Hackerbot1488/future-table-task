@@ -1,7 +1,7 @@
 import React from "react";
 import { TableRowProps, TableRowColumn } from "./interfaces";
 import classNames from "class-names";
-
+import "./tableRow.sass";
 export const TableRow: React.FC<TableRowProps> = ({ isHeader, columns }) => {
 	const rowClasses = classNames("table__row", { table__row_header: isHeader });
 	let columnClasses = "";
