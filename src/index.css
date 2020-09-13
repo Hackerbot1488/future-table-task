@@ -5,6 +5,9 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+.overflow_hidden {
+	overflow: hidden;
+}
 #root {
 	display: flex;
 	align-items: center;
