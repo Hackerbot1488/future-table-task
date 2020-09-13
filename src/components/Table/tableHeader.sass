@@ -1,0 +1,73 @@
+.table-header
+  box-sizing: border-box
+  display: flex
+  padding: 20px 15px 10px
+  &__container
+    height: 40px
+    display: flex
+    /** align-items: center **/
+    flex: 1
+    &:last-child
+      justify-content: flex-end
+  &__button
+    width: 100px
+    font-size: 16px
+    border: 1px solid #b8b8b8
+    border-radius: 4px
+    background-color: white
+    cursor: pointer
+    transition: 0.5s
+    outline: none
+    &_find
+      border-left: none
+      border-top-left-radius: 0px
+      border-bottom-left-radius: 0px
+    &:hover
+      background-color: #eee
+  &__input
+    font-size: 16px
+    width: 145px
+    border: 1px solid #b8b8b8
+    border-radius: 4px
+    border-top-right-radius: 0px
+    border-bottom-right-radius: 0px
+    padding-left: 10px
+    padding-right: 10px
+    outline: none
+    transition: 0.5s
+    &:focus
+      border-width: 2px
+      border-color: black
+.container
+  display: flex
+  &__column
+    display: flex
+    flex-direction: column
+    &:last-child
+      margin-left: 60px
+  &__row
+    display: flex
+    flex-direction: column
+    padding-bottom: 20px
+  &__input
+    width: 200px
+    box-sizing: border-box
+    font-size: 16px
+    border: 1px solid #b8b8b8
+    border-radius: 4px
+    padding-left: 10px
+    padding-right: 10px
+    outline: none
+    transition: 0.5s
+    height: 30px
+    &:focus
+      border-width: 2px
+      border-color: black
+  &__label
+    position: relative
+    display: inline-table
+    font-size: 18px
+    margin-left: 10px
+    margin-bottom: 3px
+    width: fit-content
+
