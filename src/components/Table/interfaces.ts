@@ -35,3 +35,9 @@ export interface TableModalProps {
 	closeModal: () => void;
 	addPerson: (person: Person) => void;
 }
+export interface TableFooterProps {
+	current: number;
+	max: number;
+	onLeftClick: (page: number) => void;
+	onRightClick: (page: number) => void;
+}
