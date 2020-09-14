@@ -70,4 +70,15 @@
     margin-left: 10px
     margin-bottom: 3px
     width: fit-content
-
+@media (max-width: 540px)
+  .container
+    flex-direction: column
+    &__column
+      &:last-child
+        margin-left: 0px
+@media (max-width: 460px)
+  .table-header
+    &__button
+      width: 50px
+    &__input
+      width: 100px

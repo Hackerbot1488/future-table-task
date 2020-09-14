@@ -19,15 +19,15 @@ body {
 	display: flex;
 	flex-direction: column;
 }
-.container {
+.container-menu {
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 200px;
 }
-.container__buttons {
+.container-menu__buttons {
 	display: flex;
 }
-.container__button {
+.container-menu__button {
 	width: 180px;
 	font-size: 16px;
 	border: 1px solid #b8b8b8;
@@ -38,14 +38,26 @@ body {
 	outline: none;
 	height: 100px;
 }
-.container__button:last-child {
+.container-menu__button:last-child {
 	margin-left: 40px;
 }
-.container__button:hover {
+.container-menu__button:hover {
 	background-color: #eee;
 }
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
+}
+@media (max-width: 460px) {
+	.container-menu__button {
+		width: 140px;
+		height: 60px;
+	}
+	.container-menu__button:last-child {
+		margin-left: 20px;
+	}
+	.container-menu__title {
+		font-size: 24px;
+	}
 }

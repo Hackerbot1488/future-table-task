@@ -48,3 +48,14 @@
   span
     overflow: hidden
     text-overflow: ellipsis
+@media (max-width: 760px)
+  .table__column
+    &:nth-child(4)
+      display: none
+@media (max-width: 630px)
+  .table__column
+    &:nth-child(3)
+      display: none
+@media (max-width: 460px)
+  .table__column
+    width: 80px

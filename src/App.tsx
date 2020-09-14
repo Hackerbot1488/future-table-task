@@ -27,17 +27,17 @@ export const App: React.FC<{}> = () => {
 	return (
 		<div className="App">
 			{menu && (
-				<div className="container">
-					<h1 className="container__title">Выберите объем данных.</h1>
-					<div className="container__buttons">
+				<div className="container-menu">
+					<h1 className="container-menu__title">Выберите объем данных.</h1>
+					<div className="container-menu__buttons">
 						<button
-							className="container__button"
+							className="container-menu__button"
 							onClick={() => fetchPersons(linkShort)}
 						>
 							Маленький
 						</button>
 						<button
-							className="container__button"
+							className="container-menu__button"
 							onClick={() => fetchPersons(linkLong)}
 						>
 							Большой
