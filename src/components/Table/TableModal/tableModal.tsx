@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
-import { Modal } from "../Modal/Modal";
-import { Person, TableModalProps } from "./interfaces";
+import { Modal } from "../../Modal/Modal";
+import { Person, TableModalProps } from "../interfaces";
 
 export const TableModal: React.FC<TableModalProps> = ({
 	isOpen,

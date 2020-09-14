@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
-import { TableHeaderProps } from "./interfaces";
+import { TableHeaderProps } from "../interfaces";
 import "./tableHeader.sass";
-import { TableModal } from "./tableModal";
+import { TableModal } from "../TableModal/tableModal";
 export const TableHeader: React.FC<TableHeaderProps> = ({
 	addPerson,
 	sortByString,

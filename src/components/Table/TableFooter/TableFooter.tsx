@@ -1,8 +1,8 @@
 import React from "react";
 import "./tableFooter.sass";
-import Right from "../../img/right.svg";
-import Left from "../../img/left.svg";
-import { TableFooterProps } from "./interfaces";
+import Right from "../../../img/right.svg";
+import Left from "../../../img/left.svg";
+import { TableFooterProps } from "../interfaces";
 import classNames from "class-names";
 export const TableFooter: React.FC<TableFooterProps> = ({
 	current,

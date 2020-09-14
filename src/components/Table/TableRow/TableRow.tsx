@@ -1,18 +1,20 @@
 import React from "react";
-import { TableRowProps, TableRowColumn } from "./interfaces";
+import { TableRowProps, TableRowColumn } from "../interfaces";
 import classNames from "class-names";
 import "./tableRow.sass";
-import icon from "../../img/arrow.svg";
+import icon from "../../../img/arrow.svg";
 export const TableRow: React.FC<TableRowProps> = ({
 	isHeader,
 	columns,
 	changeSort,
+	showPerson,
+	person,
 }) => {
 	const rowClasses = classNames("table__row", { table__row_header: isHeader });
 	let columnClasses = "";
 	let iconClasses = "";
 	return (
-		<div className={rowClasses}>
+		<div className={rowClasses} onClick={() => person && showPerson!(person)}>
 			{columns!.map((column: TableRowColumn) => {
 				columnClasses = classNames("table__column", {
 					table__column_sorted: column.sorted,
