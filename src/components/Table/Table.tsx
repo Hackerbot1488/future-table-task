@@ -16,7 +16,7 @@ export const Table: React.FC<TableProps> = ({ people }) => {
 	const [header, setHeader] = useState(headerColumns);
 	const [initialPersons, setInitialPersons] = useState<Person[]>([]);
 	const [persons, setPersons] = useState<Person[]>([]);
-	const [personsBeforeSort, setPersonsBeforeSort] = useState([]);
+	const [personsBeforeSort, setPersonsBeforeSort] = useState<Person[]>([]);
 	const [sortType, setSortType] = useState({ title: "", to: "" });
 	const [page, setPage] = useState(0);
 	const [maxPage, setMaxPage] = useState(0);
@@ -81,7 +81,7 @@ export const Table: React.FC<TableProps> = ({ people }) => {
 				changeActive(index, "default");
 				setSortType({ title: "", to: "" });
 				type = "";
-				setPersons(initialPersons.slice());
+				setPersons(personsBeforeSort.slice());
 			}
 		} else {
 			const oldIndex = header.findIndex((el) => el.title === sortType.title);
@@ -93,10 +93,12 @@ export const Table: React.FC<TableProps> = ({ people }) => {
 	}
 	function addPerson(person: Person) {
 		setInitialPersons((prev: Person[]) => [person, ...prev]);
-		setPersons([person, ...initialPersons.slice()]);
+		setPersonsBeforeSort((prev: Person[]) => [person, ...prev]);
+		setPersons([person, ...personsBeforeSort.slice()]);
 	}
 	function sortByString(subString: string) {
 		if (subString === "") {
+			setPersonsBeforeSort(initialPersons.slice());
 			setPersons(initialPersons.slice());
 			setMaxPage(
 				Math.floor((initialPersons.length - 1) / 50) < 0
@@ -106,17 +108,17 @@ export const Table: React.FC<TableProps> = ({ people }) => {
 		} else {
 			const reg = new RegExp(`${subString}`);
 			let i = 0;
-			setPersons(() =>
-				initialPersons.filter(
-					(pers: Person) =>
-						(reg.test(String(pers.id)) ||
-							reg.test(pers.firstName) ||
-							reg.test(pers.lastName) ||
-							reg.test(pers.phone) ||
-							reg.test(pers.email)) &&
-						i++
-				)
+			const filtered = initialPersons.filter(
+				(pers: Person) =>
+					(reg.test(String(pers.id)) ||
+						reg.test(pers.firstName) ||
+						reg.test(pers.lastName) ||
+						reg.test(pers.phone) ||
+						reg.test(pers.email)) &&
+					i++
 			);
+			setPersonsBeforeSort(filtered.slice());
+			setPersons(() => filtered);
 			setMaxPage(Math.floor((i - 1) / 50) < 0 ? 0 : Math.floor((i - 1) / 50));
 			page > (Math.floor((i - 1) / 50) < 0 ? 0 : Math.floor((i - 1) / 50)) &&
 				setPage(Math.floor((i - 1) / 50) < 0 ? 0 : Math.floor((i - 1) / 50));
@@ -131,6 +133,8 @@ export const Table: React.FC<TableProps> = ({ people }) => {
 	useEffect(() => {
 		setPersons(people.slice());
 		setInitialPersons(people.slice());
+		setPersonsBeforeSort(people.slice());
+		console.log("updated");
 		setMaxPage(
 			Math.floor((people.length - 1) / 50) < 0
 				? 0

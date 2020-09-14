@@ -23,7 +23,7 @@ export const TableRow: React.FC<TableRowProps> = ({
 					{ arrow_down: column.active === "down" }
 				);
 				return (
-					<div className={columnClasses} key={column.title}>
+					<div className={columnClasses} key={column.title + Math.random()}>
 						<span
 							onClick={() =>
 								column.sorted && changeSort!(column.title, column.index!)
