@@ -1,0 +1,12 @@
+Dockerfile
+package-lock.json
+/node_modules
+/.git
+.gitignore
+yarn.lock
+yarn-error.log
+README.md
+/public
+/src
+tsconfig.json
+package.json
