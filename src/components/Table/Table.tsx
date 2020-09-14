@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { TableRow } from "./TableRow";
+import { TableRow } from "./TableRow/TableRow";
 import { Person, TableProps, TableRowColumn } from "./interfaces";
 import "./table.sass";
-import { TableHeader } from "./TableHeader";
-import { TableFooter } from "./TableFooter";
+import { TableHeader } from "./TableHeader/TableHeader";
+import { TableFooter } from "./TableFooter/TableFooter";
+import { TableRowInfo } from "./TableRowInfo/TableRowInfo";
 export const Table: React.FC<TableProps> = ({ people }) => {
 	let headerColumns: TableRowColumn[] = [
 		{ title: "id", sorted: true, active: "default", index: 0 },
@@ -14,6 +15,8 @@ export const Table: React.FC<TableProps> = ({ people }) => {
 	];
 	let type = "";
 	const [header, setHeader] = useState(headerColumns);
+	const [person, setPerson] = useState<Person>();
+	const [showInfo, setShowInfo] = useState(false);
 	const [initialPersons, setInitialPersons] = useState<Person[]>([]);
 	const [persons, setPersons] = useState<Person[]>([]);
 	const [personsBeforeSort, setPersonsBeforeSort] = useState<Person[]>([]);
@@ -130,6 +133,14 @@ export const Table: React.FC<TableProps> = ({ people }) => {
 	function rightClick(current: number) {
 		setPage(current + 1);
 	}
+	function showPerson(person: Person) {
+		setPerson(person);
+		setShowInfo(true);
+	}
+	function hidePerson() {
+		setPerson(undefined);
+		setShowInfo(false);
+	}
 	useEffect(() => {
 		setPersons(people.slice());
 		setInitialPersons(people.slice());
@@ -143,30 +154,44 @@ export const Table: React.FC<TableProps> = ({ people }) => {
 	}, [people]);
 
 	return (
-		<div className="table">
-			<TableHeader addPerson={addPerson} sortByString={sortByString} />
-			<TableRow isHeader columns={header} changeSort={changeSort} />
-			{persons
-				.slice(
-					page * 50,
-					page * 50 + 50 > persons.length ? persons.length : page * 50 + 50
-				)
-				.map((pers: any, index) => {
-					const columns = [
-						{ title: pers.id },
-						{ title: pers.firstName },
-						{ title: pers.lastName },
-						{ title: pers.email },
-						{ title: pers.phone },
-					];
-					return <TableRow columns={columns} key={Math.random() + index} />;
-				})}
-			<TableFooter
-				current={page}
-				max={maxPage}
-				onLeftClick={leftClick}
-				onRightClick={rightClick}
+		<>
+			<div className="table">
+				<TableHeader addPerson={addPerson} sortByString={sortByString} />
+				<TableRow isHeader columns={header} changeSort={changeSort} />
+				{persons
+					.slice(
+						page * 50,
+						page * 50 + 50 > persons.length ? persons.length : page * 50 + 50
+					)
+					.map((pers: any, index) => {
+						const columns = [
+							{ title: pers.id },
+							{ title: pers.firstName },
+							{ title: pers.lastName },
+							{ title: pers.email },
+							{ title: pers.phone },
+						];
+						return (
+							<TableRow
+								columns={columns}
+								key={Math.random() + index}
+								person={pers}
+								showPerson={showPerson}
+							/>
+						);
+					})}
+				<TableFooter
+					current={page}
+					max={maxPage}
+					onLeftClick={leftClick}
+					onRightClick={rightClick}
+				/>
+			</div>
+			<TableRowInfo
+				person={person}
+				isActive={showInfo}
+				hidePerson={hidePerson}
 			/>
-		</div>
+		</>
 	);
 };
