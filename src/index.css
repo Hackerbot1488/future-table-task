@@ -11,10 +11,38 @@ body {
 #root {
 	display: flex;
 	align-items: center;
+	min-height: 100vh;
 }
 .App {
 	padding: 50px 0;
 	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+}
+.container {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 200px;
+}
+.container__buttons {
+	display: flex;
+}
+.container__button {
+	width: 180px;
+	font-size: 16px;
+	border: 1px solid #b8b8b8;
+	border-radius: 4px;
+	background-color: white;
+	cursor: pointer;
+	transition: 0.5s;
+	outline: none;
+	height: 100px;
+}
+.container__button:last-child {
+	margin-left: 40px;
+}
+.container__button:hover {
+	background-color: #eee;
 }
 
 code {
