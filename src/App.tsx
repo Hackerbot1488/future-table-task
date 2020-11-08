@@ -19,6 +19,14 @@ export const App: React.FC<{}> = () => {
 			.then((data) => {
 				setPeople(data);
 				setLoading(false);
+			})
+			.catch(() => {
+				if (link === linkShort) {
+					import("./data/small.json").then((data: Person[]) => setPeople(data));
+				} else if (link === linkLong) {
+					import("./data/big.json").then((data: Person[]) => setPeople(data));
+				}
+				setLoading(false);
 			});
 	}
 	if (loading) {
